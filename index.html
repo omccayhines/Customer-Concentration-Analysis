@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Concentration Analysis - Deloitte</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        :root {
+            --deloitte-green: #86BC25;
+            --deloitte-dark-green: #046A38;
+            --deloitte-black: #000000;
+            --deloitte-gray: #53565A;
+            --deloitte-light-gray: #A0A0A0;
+            --deloitte-bg-gray: #F5F5F5;
+            --deloitte-white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            background: #ffffff;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, li, span, div, strong {
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+        }
+
+        /* Fixed Header */
+        .slide-header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: #000000;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .deloitte-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .deloitte-logo img {
+            height: 22px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px 60px 40px;
+            min-width: 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 60px 0 40px 0;
+            background: linear-gradient(135deg, rgba(134, 188, 37, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
+            border-radius: 12px;
+            margin-bottom: 50px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--deloitte-black);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            word-break: break-word;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--deloitte-green);
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .hero-intro {
+            font-size: 18px;
+            color: var(--deloitte-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 50px 0 25px 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--deloitte-bg-gray);
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(134, 188, 37, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon .material-icons-outlined {
+            font-size: 28px;
+            color: var(--deloitte-green);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--deloitte-black);
+        }
+
+        /* Challenge Card */
+        .challenge-card {
+            background: white;
+            border-left: 4px solid var(--deloitte-green);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .challenge-card h3 {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--deloitte-dark-green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .challenge-card h3 .material-icons-outlined {
+            color: var(--deloitte-green);
+        }
+
+        .challenge-card p {
+            font-size: 16px;
+            color: var(--deloitte-gray);
+            line-height: 1.7;
+        }
+
+        /* Key Pointers Grid */
+        .pointers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .pointer-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .pointer-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .pointer-number {
+            width: 40px;
+            height: 40px;
+            background: var(--deloitte-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .pointer-card h3 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--deloitte-black);
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .pointer-card p {
+            font-size: 15px;
+            color: var(--deloitte-gray);
+            line-height: 1.6;
+        }
+
+        /* Accordion Styles */
+        .accordion-container {
+            margin-bottom: 40px;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .accordion-header:hover {
+            background: rgba(134, 188, 37, 0.03);
+        }
+
+        .accordion-header.active {
+            background: rgba(134, 188, 37, 0.05);
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .accordion-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .accordion-step-number {
+            width: 35px;
+            height: 35px;
+            background: var(--deloitte-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .accordion-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--deloitte-black);
+            word-break: break-word;
+        }
+
+        .accordion-icon {
+            color: var(--deloitte-green);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .accordion-icon.active {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 3000px;
+        }
+
+        .accordion-body {
+            padding: 25px;
+            background: rgba(245, 245, 245, 0.3);
+        }
+
+        .accordion-body p {
+            font-size: 15px;
+            color: var(--deloitte-gray);
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .accordion-body ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .accordion-body li {
+            font-size: 15px;
+            color: var(--deloitte-gray);
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .accordion-body strong {
+            color: var(--deloitte-dark-green);
+            font-weight: 600;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table thead {
+            background: var(--deloitte-dark-green);
+            color: white;
+        }
+
+        .data-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: var(--deloitte-gray);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(134, 188, 37, 0.03);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-green {
+            color: var(--deloitte-green);
+            font-weight: 600;
+        }
+
+        .highlight-red {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        .highlight-orange {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #f8f8f8;
+            border-left: 4px solid var(--deloitte-green);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--deloitte-black);
+            overflow-x: auto;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, rgba(134, 188, 37, 0.08) 0%, rgba(134, 188, 37, 0.03) 100%);
+            border-left: 4px solid var(--deloitte-green);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-box .material-icons-outlined {
+            color: var(--deloitte-green);
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .info-box-content p {
+            font-size: 15px;
+            color: var(--deloitte-gray);
+            line-height: 1.7;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.08) 0%, rgba(255, 152, 0, 0.03) 100%);
+            border-left: 4px solid #ff9800;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .warning-box .material-icons-outlined {
+            color: #ff9800;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .pointers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 38px;
+            }
+
+            .main-container {
+                padding: 70px 30px 50px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-header-bar {
+                height: 40px;
+                padding: 0 20px;
+            }
+
+            .deloitte-logo img {
+                height: 18px;
+            }
+
+            .main-container {
+                padding: 60px 20px 40px 20px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .pointers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 12px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 600px), (max-height: 500px) {
+            .pointers-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header -->
+    <div class="slide-header-bar">
+        <div class="deloitte-logo">
+            <img src="https://www.deloitte.com/content/dam/assets-shared/logos/svg/a-d/deloitte.svg" alt="Deloitte">
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section fade-in">
+            <h1 class="hero-title">Customer Concentration Analysis: P14</h1>
+            <p class="hero-subtitle">Understanding Risk Beyond Profitability</p>
+            <p class="hero-intro">P14 (Dragon Egg Replica) is your #1 profit driver with $27,190 in gross profit and a stellar 62% margin. But before we celebrate this success, we need to ask a critical question: <strong>How dependent is P14's success on a small number of customers?</strong> This exercise will guide you through analyzing customer concentration and understanding why profitability alone doesn't tell the complete story. Complete the analysis and discover what the data reveals.</p>
+        </div>
+
+        <!-- Section 2: The Challenge -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">flag</span>
+            </div>
+            <h2 class="section-title">The Challenge</h2>
+        </div>
+
+        <div class="challenge-card">
+            <h3>
+                <span class="material-icons-outlined">flag</span>
+                What You Need to Do
+            </h3>
+            <p>As strategy consultants, you've identified P14 as the most profitable product. Leadership wants to double down on this winner. But before committing resources, you need to answer a critical question: <strong>How dependent is P14's success on a small number of customers?</strong> Your analysis will reveal whether this profit leader has a diversified customer base or a dangerous concentration that could collapse if key customers leave. Complete the exercise and see what the data tells you.</p>
+        </div>
+
+        <div class="info-box">
+            <span class="material-icons-outlined">info</span>
+            <div class="info-box-content">
+                <p><strong>Why This Matters:</strong> High profitability doesn't guarantee sustainability. A product generating $27K profit from 3 customers is far riskier than one generating the same profit from 30 customers. This exercise teaches you to look beyond univariate metrics (profit alone) and consider multivariate context (profit + customer concentration + loyalty + churn risk). You'll discover why asking "What else should I know?" is critical to strategic decision-making.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Key Pointers -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">stars</span>
+            </div>
+            <h2 class="section-title">Key Pointers</h2>
+        </div>
+
+        <div class="pointers-grid">
+            <div class="pointer-card">
+                <div class="pointer-number">1</div>
+                <h3>Measure Concentration</h3>
+                <p>Calculate what % of P14 revenue comes from top 5 customers. Use HHI (Herfindahl-Hirschman Index) to quantify concentration risk.</p>
+            </div>
+            <div class="pointer-card">
+                <div class="pointer-number">2</div>
+                <h3>Assess Customer Quality</h3>
+                <p>Not all customers are equal. Examine loyalty tiers, acquisition channels, and transaction frequency to gauge stickiness.</p>
+            </div>
+            <div class="pointer-card">
+                <div class="pointer-number">3</div>
+                <h3>Avoid Univariate Thinking</h3>
+                <p>Profit margin alone is misleading. Always ask: "What else should I know?" Consider concentration, loyalty, churn, and acquisition cost.</p>
+            </div>
+        </div>
+
+        <!-- Section 4: High-Level Business Steps -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">account_tree</span>
+            </div>
+            <h2 class="section-title">High-Level Business Steps</h2>
+        </div>
+
+        <div class="accordion-container">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">1</div>
+                        <div class="accordion-title">Define the Risk Question</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Primary Question:</strong> How concentrated is P14's customer base, and what's our risk exposure if key customers leave?</p>
+                        <p><strong>Sub-Questions to Consider:</strong></p>
+                        <ul>
+                            <li>What percentage of P14 revenue comes from the top 5 customers?</li>
+                            <li>How many customers would we need to lose to significantly impact profitability?</li>
+                            <li>Is the customer base diversified or concentrated?</li>
+                            <li>What's the HHI (concentration index) for P14's customer base?</li>
+                        </ul>
+                        <p><strong>Strategic Context:</strong> In M&A due diligence, customer concentration >25% (top 5 customers) often triggers 10-30% valuation discounts. Understanding concentration is critical for investment decisions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">2</div>
+                        <div class="accordion-title">Gather Customer-Level Data</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Required Data Sources:</strong></p>
+                        <ul>
+                            <li><strong>Sales Transactions:</strong> Filter Fact_Sales for ProductID = "P14"</li>
+                            <li><strong>Customer Attributes:</strong> Merge with Dim_Customer for loyalty tier, acquisition channel, customer type</li>
+                            <li><strong>Revenue Calculation:</strong> UnitPriceLocal × Quantity per transaction</li>
+                            <li><strong>Transaction Frequency:</strong> Count of purchases per customer</li>
+                        </ul>
+                        <p><strong>Data Quality Checks:</strong></p>
+                        <ul>
+                            <li>Verify all P14 transactions have matching customer records</li>
+                            <li>Check for duplicate customer IDs or transactions</li>
+                            <li>Ensure currency consistency (all in USD or properly converted)</li>
+                            <li>Validate that total P14 revenue matches expected $43,800.38</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">3</div>
+                        <div class="accordion-title">Calculate Customer Metrics</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Key Metrics to Calculate:</strong></p>
+                        <ul>
+                            <li><strong>Revenue per Customer:</strong> SUM(UnitPriceLocal × Quantity) grouped by CustomerID</li>
+                            <li><strong>Customer Rank:</strong> Rank customers by revenue (1 = highest revenue)</li>
+                            <li><strong>Revenue Share:</strong> (Customer Revenue ÷ Total P14 Revenue) × 100</li>
+                            <li><strong>Cumulative Revenue %:</strong> Running sum of revenue share from rank 1 to N</li>
+                            <li><strong>Transaction Count:</strong> Number of P14 purchases per customer</li>
+                            <li><strong>Average Transaction Value:</strong> Revenue per Customer ÷ Transaction Count</li>
+                        </ul>
+                        <p><strong>Implementation Tip:</strong> Use Power Query's Group By function to aggregate at customer level, then add calculated columns for rank, share, and cumulative metrics.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">4</div>
+                        <div class="accordion-title">Analyze Concentration (Pareto & HHI)</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Pareto Analysis (80/20 Rule):</strong></p>
+                        <ul>
+                            <li>Identify what % of customers drive 80% of revenue</li>
+                            <li>Calculate concentration ratios: CR5 (top 5), CR10 (top 10)</li>
+                            <li>Compare to industry benchmarks (B2B: CR5 often 30-50%)</li>
+                        </ul>
+                        <p><strong>HHI (Herfindahl-Hirschman Index):</strong></p>
+                        <ul>
+                            <li><strong>Formula:</strong> HHI = Σ(Revenue Share)² for all customers</li>
+                            <li><strong>Interpretation:</strong> HHI < 0.15 = Low concentration | 0.15-0.25 = Moderate | >0.25 = High concentration</li>
+                            <li><strong>Example:</strong> If top customer has 10% share: (0.10)² = 0.01 contribution to HHI</li>
+                            <li><strong>Why It Matters:</strong> HHI is used by regulators (FTC) and investors to assess market/customer concentration risk</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">5</div>
+                        <div class="accordion-title">Assess Multivariate Context</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Beyond Revenue Concentration - The "What Else?" Framework:</strong></p>
+                        <ul>
+                            <li><strong>Loyalty Tier Analysis:</strong> Are top customers Gold/Platinum (sticky) or Bronze (at-risk)?</li>
+                            <li><strong>Acquisition Channel:</strong> Referral customers (higher retention) vs. Walk-in (lower retention)?</li>
+                            <li><strong>Transaction Frequency:</strong> Repeat buyers vs. one-time purchasers?</li>
+                            <li><strong>Customer Profitability:</strong> Revenue - (COGS + Acquisition Cost + Servicing Cost) per customer</li>
+                            <li><strong>Churn Risk Indicators:</strong> Recent purchase date, declining transaction frequency, support tickets</li>
+                        </ul>
+                        <p><strong>Univariate vs. Multivariate Analysis:</strong></p>
+                        <ul>
+                            <li><strong>Univariate (Misleading):</strong> "P14 has 62% margin → Safe investment"</li>
+                            <li><strong>Multivariate (Complete):</strong> "P14 has 62% margin + EXTREME concentration (69.5% from C077) + unknown loyalty of top customer → HIGH RISK - DO NOT INVEST without customer retention strategy"</li>
+                        </ul>
+                        <p><strong>Strategic Implication:</strong> Always ask "What else should I know?" before making decisions based on a single metric.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">6</div>
+                        <div class="accordion-title">Calculate Profit Impact Scenarios</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Scenario Analysis - What If We Lose Key Customers?</strong></p>
+                        <ul>
+                            <li><strong>Scenario 1:</strong> Lose top customer → Revenue impact = Top customer revenue × 62% margin</li>
+                            <li><strong>Scenario 2:</strong> Lose top 3 customers → Sum(Top 3 revenue) × 62% margin</li>
+                            <li><strong>Scenario 3:</strong> Lose top 5 customers → Sum(Top 5 revenue) × 62% margin</li>
+                        </ul>
+                        <p><strong>Example Calculation (if top customer = $650 revenue):</strong></p>
+                        <ul>
+                            <li>Revenue Loss: $650</li>
+                            <li>Profit Loss: $650 × 0.62 = $403</li>
+                            <li>% of Total P14 Profit: $403 ÷ $27,190 = 1.48% impact</li>
+                        </ul>
+                        <p><strong>Risk Assessment:</strong> If losing top 5 customers impacts >10% of profit, implement customer retention strategies immediately.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-step-number">7</div>
+                        <div class="accordion-title">Develop Strategic Recommendations</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Based on Concentration Analysis, Recommend:</strong></p>
+                        <ul>
+                            <li><strong>If Low Concentration (HHI < 0.15):</strong> Invest in growth and expansion; customer base is diversified</li>
+                            <li><strong>If Moderate Concentration (HHI 0.15-0.25):</strong> Invest with customer retention programs for top 10 customers</li>
+                            <li><strong>If High Concentration (HHI > 0.25):</strong> Diversify customer base before major investment; implement VIP retention programs</li>
+                        </ul>
+                        <p><strong>Actionable Strategies:</strong></p>
+                        <ul>
+                            <li><strong>Customer Retention:</strong> VIP programs, dedicated account managers, loyalty rewards for top customers</li>
+                            <li><strong>Diversification:</strong> Target new customer segments, expand marketing to reduce dependency</li>
+                            <li><strong>Risk Monitoring:</strong> Quarterly HHI tracking, early warning system for customer churn</li>
+                            <li><strong>Contract Strategies:</strong> Long-term contracts with top customers to reduce churn risk</li>
+                        </ul>
+                        <p><strong>Deliverable:</strong> Executive summary with concentration metrics, risk assessment, and strategic recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Power Query Quick Reference -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">code</span>
+            </div>
+            <h2 class="section-title">Power Query Quick Reference</h2>
+        </div>
+
+        <div class="accordion-container">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-title">Power Query Implementation Steps</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Step 1: Load and Filter P14 Sales Data</strong></p>
+                        <div class="code-block">let
+    Source = Excel.CurrentWorkbook(){[Name="Fact_Sales"]}[Content],
+    FilterP14 = Table.SelectRows(Source, each [ProductID] = "P14")
+in
+    FilterP14</div>
+                        
+                        <p><strong>Step 2: Merge with Customer Dimension</strong></p>
+                        <div class="code-block">let
+    MergeCustomer = Table.NestedJoin(FilterP14, {"CustomerID"}, Dim_Customer, {"CustomerID"}, "Customer", JoinKind.Left),
+    ExpandCustomer = Table.ExpandTableColumn(MergeCustomer, "Customer", 
+        {"CustomerName", "LoyaltyTier", "AcquisitionChannel", "CustomerType"})
+in
+    ExpandCustomer</div>
+                        
+                        <p><strong>Step 3: Aggregate Revenue by Customer</strong></p>
+                        <div class="code-block">let
+    GroupByCustomer = Table.Group(ExpandCustomer, {"CustomerID", "CustomerName", "LoyaltyTier", "AcquisitionChannel"}, {
+        {"TotalRevenue", each List.Sum([UnitPriceLocal] * [Quantity]), type number},
+        {"TransactionCount", each Table.RowCount(_), Int64.Type},
+        {"AvgTransactionValue", each List.Average([UnitPriceLocal] * [Quantity]), type number}
+    })
+in
+    GroupByCustomer</div>
+                        
+                        <p><strong>Step 4: Calculate Concentration Metrics</strong></p>
+                        <div class="code-block">let
+    SortByRevenue = Table.Sort(GroupByCustomer, {{"TotalRevenue", Order.Descending}}),
+    AddRank = Table.AddIndexColumn(SortByRevenue, "CustomerRank", 1, 1),
+    TotalP14Revenue = List.Sum(AddRank[TotalRevenue]),
+    AddRevenueShare = Table.AddColumn(AddRank, "RevenueShare", each [TotalRevenue] / TotalP14Revenue),
+    AddCumulativeShare = Table.AddColumn(AddRevenueShare, "CumulativeShare", 
+        each List.Sum(List.FirstN(AddRevenueShare[RevenueShare], [CustomerRank]))),
+    AddHHIContribution = Table.AddColumn(AddCumulativeShare, "HHI_Contribution", each Number.Power([RevenueShare], 2))
+in
+    AddHHIContribution</div>
+                        
+                        <p><strong>Step 5: Create Risk Assessment</strong></p>
+                        <div class="code-block">let
+    AddConcentrationTier = Table.AddColumn(AddHHIContribution, "ConcentrationTier", 
+        each if [CustomerRank] <= 5 then "Top 5 - Critical"
+        else if [CustomerRank] <= 10 then "Top 10 - High Risk"
+        else if [CumulativeShare] <= 0.8 then "Core Base"
+        else "Long Tail"),
+    
+    AddRiskFlag = Table.AddColumn(AddConcentrationTier, "RiskFlag", 
+        each if [RevenueShare] > 0.05 then "High Dependency (>5%)"
+        else if [RevenueShare] > 0.02 then "Moderate Dependency (2-5%)"
+        else "Low Dependency (<2%)")
+in
+    AddRiskFlag</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Expected Output -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="accordion-title-wrapper">
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                    <div class="accordion-title">Expected Output - Click to Expand</div>
+                </div>
+            </div>
+            <div class="accordion-content">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <span class="material-icons-outlined">table_chart</span>
+                    </div>
+                    <h2 class="section-title">Expected Output</h2>
+                </div>
+
+                <div class="info-box">
+                    <span class="material-icons-outlined">visibility</span>
+                    <div class="info-box-content">
+                        <p><strong>Your final analysis should produce this customer concentration summary.</strong> This shows P14's 27 customers ranked by revenue contribution. Complete the exercise before reviewing this section!</p>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Customer ID</th>
+                            <th>Revenue</th>
+                            <th>Revenue %</th>
+                            <th>Cumulative %</th>
+                            <th>Concentration Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>C077</td>
+                            <td class="highlight-red">$30,445</td>
+                            <td class="highlight-red">69.5%</td>
+                            <td class="highlight-red">69.5%</td>
+                            <td class="highlight-red">CRITICAL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>C088</td>
+                            <td>$1,095</td>
+                            <td class="highlight-orange">2.5%</td>
+                            <td>72.0%</td>
+                            <td>Top 5 - Critical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>C075</td>
+                            <td>$1,078</td>
+                            <td class="highlight-orange">2.5%</td>
+                            <td>74.5%</td>
+                            <td>Top 5 - Critical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>C084</td>
+                            <td>$868</td>
+                            <td>2.0%</td>
+                            <td>76.5%</td>
+                            <td>Top 5 - Critical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td>C089</td>
+                            <td>$859</td>
+                            <td>2.0%</td>
+                            <td>78.5%</td>
+                            <td>Top 5 - Critical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6-10</strong></td>
+                            <td>C086, C082, C064, C083, C074</td>
+                            <td>$649-841</td>
+                            <td>1.5-1.9%</td>
+                            <td>~88%</td>
+                            <td>Top 10 - High Risk</td>
+                        </tr>
+                        <tr>
+                            <td><strong>11-20</strong></td>
+                            <td>Various</td>
+                            <td>$245-549</td>
+                            <td>0.6-1.3%</td>
+                            <td>~95%</td>
+                            <td>Core Base</td>
+                        </tr>
+                        <tr>
+                            <td><strong>21-27</strong></td>
+                            <td>Various</td>
+                            <td>$244-348</td>
+                            <td>0.6-0.8%</td>
+                            <td>100%</td>
+                            <td>Long Tail</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <span class="material-icons-outlined">warning</span>
+                    <div class="info-box-content">
+                        <p><strong>Quality Check:</strong> Your analysis should match these key metrics:</p>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li><strong>Total P14 Customers:</strong> 27 unique customers</li>
+                            <li><strong>Total P14 Revenue:</strong> $43,800.38</li>
+                            <li><strong>Average Revenue per Customer:</strong> ~$1,622</li>
+                            <li><strong>Top Customer Share:</strong> 69.5% (C077 with $30,445)</li>
+                            <li><strong>Top 5 Concentration (CR5):</strong> ~78.5% of total revenue</li>
+                            <li><strong>Top 10 Concentration (CR10):</strong> ~88% of total revenue</li>
+                            <li><strong>Estimated HHI:</strong> 0.48+ (EXTREME concentration - well above 0.25 high-risk threshold)</li>
+                            <li><strong>Risk Assessment:</strong> CRITICAL - Single customer dependency with 69.5% concentration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <span class="material-icons-outlined">warning</span>
+                    <div class="info-box-content">
+                        <p><strong>Critical Finding:</strong> P14 shows <strong>EXTREME customer concentration risk</strong>. One customer (C077) represents 69.5% of P14's revenue ($30,445 out of $43,800). The top 5 customers account for 78.5% of revenue. If C077 leaves, P14 loses $30,445 in revenue and $18,876 in gross profit—a 69.4% profit collapse. This is a <strong>CRITICAL RISK</strong> that requires immediate customer retention and diversification strategies before major investment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Key Insights to Look For -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">insights</span>
+            </div>
+            <h2 class="section-title">Key Insights to Look For</h2>
+        </div>
+
+        <div class="accordion-container">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-title">Analysis Dimensions</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>Concentration Findings:</strong></p>
+                        <ul>
+                            <li><strong>Top Customer Dependency:</strong> Examine what % of P14 revenue comes from the largest customer</li>
+                            <li><strong>Top 5 Concentration (CR5):</strong> Calculate what % of total revenue comes from top 5 customers</li>
+                            <li><strong>Top 10 Concentration (CR10):</strong> Calculate what % of total revenue comes from top 10 customers</li>
+                            <li><strong>Pareto Analysis:</strong> Determine how many customers drive 80% of revenue</li>
+                            <li><strong>HHI Score:</strong> Calculate HHI to quantify concentration (benchmark: <0.15 = low, 0.15-0.25 = moderate, >0.25 = high)
+                        </ul>
+                        
+                        <p><strong>Risk Assessment Insights - CATASTROPHIC RISK:</strong></p>
+                        <ul>
+                            <li><strong>Profit Impact - Lose C077 (Top Customer):</strong> $30,444.88 revenue × 62% margin = $18,875.82 profit loss (69.4% of total P14 profit!)</li>
+                            <li><strong>Profit Impact - Lose Top 3 Customers:</strong> ~$32,617 revenue × 62% margin = ~$20,222 profit loss (74.3% of total P14 profit)</li>
+                            <li><strong>Profit Impact - Lose Top 5 Customers:</strong> ~$33,874 revenue × 62% margin = ~$20,982 profit loss (77.1% of total P14 profit)</li>
+                            <li><strong>Customer Loyalty:</strong> Examine if top customers are Gold/Platinum tier (sticky) or Bronze tier (at-risk)</li>
+                            <li><strong>Acquisition Channel:</strong> Check if top customers came via referral (higher retention) or walk-in (lower retention)</li>
+                            <li><strong>Transaction Frequency:</strong> Are top customers repeat buyers or one-time purchasers?</li>
+                        </ul>
+                        
+                        <p><strong>Univariate vs. Multivariate Analysis - The Critical Difference:</strong></p>
+                        <ul>
+                            <li><strong>Univariate Analysis (Incomplete):</strong> "P14 has 62% margin and $27K profit → Let's invest heavily!"</li>
+                            <li><strong>Multivariate Analysis (Complete):</strong> "P14 has 62% margin and $27K profit, AND [your concentration findings] → This tells us [your strategic recommendation]"</li>
+                            <li><strong>The Key Question:</strong> What does your concentration analysis reveal about P14's true risk profile?</li>
+                            <li><strong>The Lesson:</strong> Always ask "What else should I know?" before making strategic decisions based on a single metric
+                        </ul>
+                        
+                        <p><strong>Strategic Implications:</strong></p>
+                        <ul>
+                            <li><strong>Investment Decision:</strong> Based on your concentration analysis, should we invest in P14 expansion?</li>
+                            <li><strong>Customer Retention:</strong> What customer retention strategies should we implement based on your findings?</li>
+                            <li><strong>Diversification Strategy:</strong> If concentration is high, what's our plan to reduce dependency?</li>
+                            <li><strong>Pricing Strategy:</strong> How should concentration risk influence our pricing decisions?</li>
+                            <li><strong>M&A Valuation:</strong> How would your concentration findings impact P14's valuation in an M&A scenario?
+                        </ul>
+                        
+                        <p><strong>Comparison to Other Products:</strong></p>
+                        <ul>
+                            <li>Apply same concentration analysis to Butterbeer Multipack (P01) - likely higher concentration due to fewer high-volume buyers</li>
+                            <li>Compare concentration across all top 5 profit-generating products</li>
+                            <li>Identify which products have both high profitability AND low concentration (ideal portfolio stars)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Common Pitfalls -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">error_outline</span>
+            </div>
+            <h2 class="section-title">Common Pitfalls</h2>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Pitfall</th>
+                    <th>Why It Happens</th>
+                    <th>How to Avoid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Assuming Profitability = Sustainability</strong></td>
+                    <td>Focusing only on profit margin without considering customer concentration risk</td>
+                    <td>Always analyze customer concentration alongside profitability metrics; ask "What if we lose top customers?"</td>
+                </tr>
+                <tr>
+                    <td><strong>The Univariate Analysis Trap</strong></td>
+                    <td>Examining one variable (profit) in isolation without multivariate context (concentration, loyalty, churn)</td>
+                    <td>Use the "What else should I know?" framework; consider profit + concentration + loyalty + acquisition cost simultaneously</td>
+                </tr>
+                <tr>
+                    <td><strong>Ignoring Customer Quality</strong></td>
+                    <td>Treating all customers equally without considering loyalty tier, acquisition channel, or transaction frequency</td>
+                    <td>Weight concentration risk by customer quality; Gold tier referral customers are stickier than Bronze walk-ins</td>
+                </tr>
+                <tr>
+                    <td><strong>Misinterpreting HHI</strong></td>
+                    <td>Not understanding HHI scale or thresholds (0-1 range, where >0.25 = high concentration)</td>
+                    <td>Learn HHI benchmarks: <0.15 = Low | 0.15-0.25 = Moderate | >0.25 = High concentration</td>
+                </tr>
+                <tr>
+                    <td><strong>Forgetting Profit Impact Scenarios</strong></td>
+                    <td>Calculating concentration % without translating to actual profit loss scenarios</td>
+                    <td>Always calculate: Revenue loss × Profit margin = Profit impact for top 1, 3, 5, and 10 customers</td>
+                </tr>
+                <tr>
+                    <td><strong>Not Considering Acquisition Cost</strong></td>
+                    <td>Focusing only on current revenue without factoring in customer acquisition cost (CAC) or lifetime value (LTV)</td>
+                    <td>Combine concentration analysis with CAC/LTV; a high-revenue customer with high CAC may be less valuable</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 9: Pro Tips -->
+        <div class="section-header">
+            <div class="section-icon">
+                <span class="material-icons-outlined">emoji_objects</span>
+            </div>
+            <h2 class="section-title">Pro Tips</h2>
+        </div>
+
+        <div class="accordion-container">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title-wrapper">
+                        <div class="accordion-title">Advanced Analysis Techniques</div>
+                    </div>
+                    <span class="material-icons-outlined accordion-icon">expand_more</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <p><strong>M&A Due Diligence Application:</strong></p>
+                        <ul>
+                            <li><strong>Valuation Impact:</strong> Customer concentration >25% (CR5) often triggers 10-30% valuation discounts</li>
+                            <li><strong>Due Diligence Checklist:</strong> Calculate HHI, CR5, CR10 for target company's customer base</li>
+                            <li><strong>Negotiation Strategy:</strong> Use concentration findings to negotiate earn-outs tied to customer retention</li>
+                            <li><strong>Integration Planning:</strong> High concentration = prioritize customer retention in first 100 days post-acquisition</li>
+                        </ul>
+                        
+                        <p><strong>Supplier Concentration Analysis:</strong></p>
+                        <ul>
+                            <li>Apply same methodology to supplier base (operational risk instead of revenue risk)</li>
+                            <li>High supplier concentration = supply chain vulnerability and negotiation disadvantage</li>
+                            <li>Calculate HHI for suppliers; if >0.25, develop supplier diversification strategy</li>
+                            <li>Combine with supplier criticality assessment (concentration + single-source components = highest risk)</li>
+                        </ul>
+                        
+                        <p><strong>Customer Profitability Matrix (2×2 Framework):</strong></p>
+                        <ul>
+                            <li><strong>Stars (High Concentration + High Profitability):</strong> VIP retention programs, dedicated account managers</li>
+                            <li><strong>Cash Cows (High Concentration + Low Profitability):</strong> Renegotiate pricing or consider exit</li>
+                            <li><strong>Growth Opportunities (Low Concentration + High Profitability):</strong> Expand customer base in this segment</li>
+                            <li><strong>Dogs (Low Concentration + Low Profitability):</strong> Deprioritize or discontinue</li>
+                        </ul>
+                        
+                        <p><strong>Monitoring and Early Warning Systems:</strong></p>
+                        <ul>
+                            <li><strong>Quarterly HHI Tracking:</strong> Set up automated dashboards to monitor concentration trends</li>
+                            <li><strong>Alert Thresholds:</strong> Trigger alerts when HHI increases by >0.05 or any customer exceeds 10% of revenue</li>
+                            <li><strong>Churn Prediction:</strong> Monitor transaction frequency, support tickets, payment delays for top customers</li>
+                            <li><strong>Proactive Retention:</strong> Implement retention campaigns before customers show churn signals</li>
+                        </ul>
+                        
+                        <p><strong>Geographic and Product Concentration:</strong></p>
+                        <ul>
+                            <li>Extend analysis to geographic markets (revenue concentration by region/country)</li>
+                            <li>Analyze product concentration (% of revenue from top 5 products)</li>
+                            <li>Calculate multi-dimensional HHI (customer × geography × product)</li>
+                            <li>Diversification strategies should address all concentration dimensions simultaneously</li>
+                        </ul>
+                        
+                        <p><strong>Real-World Example - Tech Startup Valuation:</strong></p>
+                        <ul>
+                            <li><strong>Scenario:</strong> SaaS startup with $10M ARR, 70% gross margin, seeking Series B funding</li>
+                            <li><strong>Initial Valuation:</strong> $50M (5x revenue multiple)</li>
+                            <li><strong>Due Diligence Finding:</strong> Top 3 customers = 45% of ARR (HHI = 0.28 - high concentration)</li>
+                            <li><strong>Investor Response:</strong> Valuation reduced to $35M (3.5x revenue) due to concentration risk</li>
+                            <li><strong>Outcome:</strong> Startup implemented customer diversification strategy, reduced HHI to 0.12 over 18 months</li>
+                            <li><strong>Series C Result:</strong> Raised at 6x revenue ($60M valuation) with improved concentration profile</li>
+                            <li><strong>Lesson:</strong> Customer concentration directly impacts valuation - diversification creates shareholder value</li>
+                        </ul>
+                        
+                        <p><strong>LTV-Weighted HHI (Advanced Metric):</strong></p>
+                        <ul>
+                            <li><strong>Concept:</strong> Weight concentration by customer lifetime value (LTV) instead of current revenue</li>
+                            <li><strong>Formula:</strong> LTV-HHI = Σ(LTV Share)² for all customers</li>
+                            <li><strong>Why It Matters:</strong> High-concentration customers with high LTV are less risky than those with low LTV</li>
+                            <li><strong>Application:</strong> Adjust concentration risk assessments based on customer stickiness and retention rates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 2px solid var(--deloitte-bg-gray); text-align: center;">
+            <p style="color: var(--deloitte-light-gray); font-size: 14px;">Deloitte Data Analytics Learning Session | Customer Concentration Analysis</p>
+            <p style="color: var(--deloitte-light-gray); font-size: 12px; margin-top: 10px;">© 2025 Deloitte Consulting. For educational purposes.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Close all other accordions
+            const allItems = document.querySelectorAll('.accordion-item');
+            allItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    const otherContent = otherItem.querySelector('.accordion-content');
+                    const otherIcon = otherItem.querySelector('.accordion-icon');
+                    const otherHeader = otherItem.querySelector('.accordion-header');
+                    
+                    otherContent.classList.remove('active');
+                    otherIcon.classList.remove('active');
+                    otherHeader.classList.remove('active');
+                }
+            });
+            
+            // Toggle current accordion
+            const isActive = content.classList.contains('active');
+            
+            if (isActive) {
+                content.classList.remove('active');
+                icon.classList.remove('active');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                icon.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
