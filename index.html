@@ -398,6 +398,7 @@
             margin: 15px 0;
             font-family: 'Courier New', monospace;
             font-size: 13px;
+            white-space: pre-wrap;
             color: var(--deloitte-black);
             overflow-x: auto;
         }
@@ -574,12 +575,12 @@
             <div class="pointer-card">
                 <div class="pointer-number">1</div>
                 <h3>Measure Concentration</h3>
-                <p>Calculate what % of P14 revenue comes from top 5 customers. Use HHI (Herfindahl-Hirschman Index) to quantify concentration risk.</p>
+                <p>Rank P14's customers by revenue and work out what share the largest few hold &mdash; the top customer, the top 5 (CR5), the top 10 (CR10).</p>
             </div>
             <div class="pointer-card">
                 <div class="pointer-number">2</div>
-                <h3>HHI (Herfindahl-Hirschman Index)</h3>
-                <p>Use HHI (Herfindahl-Hirschman Index) to quantify concentration risk.</p>
+                <h3>Quantify It With HHI</h3>
+                <p>The Herfindahl-Hirschman Index sums every customer's squared revenue share into one number. Above ~0.25 signals a dangerously concentrated base.</p>
             </div>
             <div class="pointer-card">
                 <div class="pointer-number">3</div>
@@ -601,21 +602,20 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">1</div>
-                        <div class="accordion-title">Define the Risk Question</div>
+                        <div class="accordion-title">Define the risk question</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Primary Question:</strong> How concentrated is P14's customer base, and what's our risk exposure if key customers leave?</p>
-                        <p><strong>Sub-Questions to Consider:</strong></p>
-                        <ul>
-                            <li>What percentage of P14 revenue comes from the top 5 customers?</li>
-                            <li>How many customers would we need to lose to significantly impact profitability?</li>
-                            <li>Is the customer base diversified or concentrated?</li>
-                            <li>What's the HHI (concentration index) for P14's customer base?</li>
-                        </ul>
-                        <p><strong>Strategic Context:</strong> In M&A due diligence, customer concentration >25% (top 5 customers) often triggers 10-30% valuation discounts. Understanding concentration is critical for investment decisions.</p>
+<p><strong>Primary question:</strong> how concentrated is P14's (Dragon Egg Replica) customer base, and how exposed is the business if a key customer leaves?</p>
+<p><strong>Sub-questions to keep in mind:</strong></p>
+<ul>
+<li>What share of P14 revenue comes from the single largest customer? From the top 5?</li>
+<li>How many customers would have to leave to materially hurt P14?</li>
+<li>Is P14's strong margin actually safe, or is it resting on one account?</li>
+</ul>
+<p>This exercise deliberately follows the profitability one: P14 looked like the best product on margin. The job now is to stress-test that conclusion.</p>
                     </div>
                 </div>
             </div>
@@ -624,26 +624,19 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">2</div>
-                        <div class="accordion-title">Gather Customer-Level Data</div>
+                        <div class="accordion-title">Gather customer-level data</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Required Data Sources:</strong></p>
-                        <ul>
-                            <li><strong>Sales Transactions:</strong> Filter Fact_Sales for ProductID = "P14"</li>
-                            <li><strong>Customer Attributes:</strong> Merge with Dim_Customer for loyalty tier, acquisition channel, customer type</li>
-                            <li><strong>Revenue Calculation:</strong> UnitPriceLocal × Quantity per transaction</li>
-                            <li><strong>Transaction Frequency:</strong> Count of purchases per customer</li>
-                        </ul>
-                        <p><strong>Data Quality Checks:</strong></p>
-                        <ul>
-                            <li>Verify all P14 transactions have matching customer records</li>
-                            <li>Check for duplicate customer IDs or transactions</li>
-                            <li>Ensure currency consistency (all in USD or properly converted)</li>
-                            <li>Validate that total P14 revenue matches expected $43,800.38</li>
-                        </ul>
+<p>You need the same revenue foundation as before, then the customer angle:</p>
+<ul>
+<li><strong>Fact_Sales</strong> &mdash; the transactions, filtered down to product P14.</li>
+<li><strong>Dim_Realm</strong> and <strong>Dim_FX</strong> &mdash; currency and rate, so revenue is in USD.</li>
+<li><strong>Dim_Customer</strong> &mdash; optional context (loyalty tier, acquisition channel) for interpreting who the big customers are.</li>
+</ul>
+<p><strong>Watch out:</strong> P14 is priced in Gold Dragons, not USD. Revenue must be FX-converted &mdash; skipping that understates every figure and breaks the comparison.</p>
                     </div>
                 </div>
             </div>
@@ -652,22 +645,19 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">3</div>
-                        <div class="accordion-title">Calculate Customer Metrics</div>
+                        <div class="accordion-title">Calculate each customer's revenue and share</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Key Metrics to Calculate:</strong></p>
-                        <ul>
-                            <li><strong>Revenue per Customer:</strong> SUM(UnitPriceLocal × Quantity) grouped by CustomerID</li>
-                            <li><strong>Customer Rank:</strong> Rank customers by revenue (1 = highest revenue)</li>
-                            <li><strong>Revenue Share:</strong> (Customer Revenue ÷ Total P14 Revenue) × 100</li>
-                            <li><strong>Cumulative Revenue %:</strong> Running sum of revenue share from rank 1 to N</li>
-                            <li><strong>Transaction Count:</strong> Number of P14 purchases per customer</li>
-                            <li><strong>Average Transaction Value:</strong> Revenue per Customer ÷ Transaction Count</li>
-                        </ul>
-                        <p><strong>Implementation Tip:</strong> Use Power Query's Group By function to aggregate at customer level, then add calculated columns for rank, share, and cumulative metrics.</p>
+<p>Build USD revenue per transaction, then total it by customer for P14 only. For each customer add:</p>
+<ul>
+<li><strong>Revenue</strong> &mdash; their total P14 spend in USD.</li>
+<li><strong>Revenue share</strong> &mdash; their revenue as a percentage of all P14 revenue.</li>
+<li><strong>Rank</strong> &mdash; ordering customers largest to smallest.</li>
+</ul>
+<p>Revenue share is the metric the whole concentration analysis is built on.</p>
                     </div>
                 </div>
             </div>
@@ -676,26 +666,18 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">4</div>
-                        <div class="accordion-title">Analyze Concentration (Pareto & HHI)</div>
+                        <div class="accordion-title">Measure concentration (Pareto and HHI)</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Pareto Analysis (80/20 Rule):</strong></p>
-                        <ul>
-                            <li>Identify what % of customers drive 80% of revenue</li>
-                            <li>Calculate concentration ratios: CR5 (top 5), CR10 (top 10)</li>
-                            <li>Compare to industry benchmarks (B2B: CR5 often 30-50%)</li>
-                        </ul>
-                        <p><strong>HHI (Herfindahl-Hirschman Index):</strong></p>
-                        <ul>
-                            <li><strong>Formula:</strong> HHI = Σ(Revenue Share)² for all customers</li>
-                            <li><strong>Interpretation:</strong> HHI < 0.15 = Low concentration | 0.15-0.25 = Moderate | >0.25 = High concentration</li>
-                            <li><strong>Example:</strong> If top customer has 10% share: (0.10)² = 0.01 contribution to HHI</li>
-                            <li><strong>Why It Matters:</strong> HHI is used by regulators (FTC) and investors to assess market/customer concentration risk</li>
-                        </ul>
-
+<p>Turn the shares into concentration measures:</p>
+<ul>
+<li><strong>Concentration ratios</strong> &mdash; CR5 and CR10: the combined share of the top 5 and top 10 customers.</li>
+<li><strong>HHI (Herfindahl-Hirschman Index)</strong> &mdash; the sum of every customer's squared share. Above ~0.25 signals a highly concentrated, high-risk base.</li>
+</ul>
+<p>This is the move from one-dimensional thinking (margin alone) to assessing the risk sitting behind that margin.</p>
                     </div>
                 </div>
             </div>
@@ -704,26 +686,18 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">5</div>
-                        <div class="accordion-title">Assess Multivariate Context</div>
+                        <div class="accordion-title">Add business context to the numbers</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Beyond Revenue Concentration - The "What Else?" Framework:</strong></p>
-                        <ul>
-                            <li><strong>Loyalty Tier Analysis:</strong> Are top customers Gold/Platinum (sticky) or Bronze (at-risk)?</li>
-                            <li><strong>Acquisition Channel:</strong> Referral customers (higher retention) vs. Walk-in (lower retention)?</li>
-                            <li><strong>Transaction Frequency:</strong> Repeat buyers vs. one-time purchasers?</li>
-                            <li><strong>Customer Profitability:</strong> Revenue - (COGS + Acquisition Cost + Servicing Cost) per customer</li>
-                            <li><strong>Churn Risk Indicators:</strong> Recent purchase date, declining transaction frequency, support tickets</li>
-                        </ul>
-                        <p><strong>Univariate vs. Multivariate Analysis:</strong></p>
-                        <ul>
-                            <li><strong>Univariate (Misleading):</strong> "P14 has 62% margin → Safe investment"</li>
-                            <li><strong>Multivariate (Complete):</strong> "P14 has 62% margin + EXTREME concentration (69.5% from C077) + unknown loyalty of top customer → HIGH RISK - DO NOT INVEST without customer retention strategy"</li>
-                        </ul>
-                        <p><strong>Strategic Implication:</strong> Always ask "What else should I know?" before making decisions based on a single metric.</p>
+<p>Concentration figures describe the risk; they don't explain it. Layer in what you know about the customers:</p>
+<ul>
+<li><strong>Loyalty tier</strong> &mdash; is the dominant customer a sticky Gold/Platinum account or a Bronze one that could churn easily?</li>
+<li><strong>Acquisition channel</strong> &mdash; referral customers tend to retain better than walk-ins.</li>
+</ul>
+<p>A 70% customer who is loyal and well-embedded is a very different risk from a 70% customer who could leave next quarter.</p>
                     </div>
                 </div>
             </div>
@@ -732,25 +706,18 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">6</div>
-                        <div class="accordion-title">Calculate Profit Impact Scenarios</div>
+                        <div class="accordion-title">Quantify the profit at risk</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Scenario Analysis - What If We Lose Key Customers?</strong></p>
-                        <ul>
-                            <li><strong>Scenario 1:</strong> Lose top customer → Revenue impact = Top customer revenue × 62% margin</li>
-                            <li><strong>Scenario 2:</strong> Lose top 3 customers → Sum(Top 3 revenue) × 62% margin</li>
-                            <li><strong>Scenario 3:</strong> Lose top 5 customers → Sum(Top 5 revenue) × 62% margin</li>
-                        </ul>
-                        <p><strong>Example Calculation (if top customer = $650 revenue):</strong></p>
-                        <ul>
-                            <li>Revenue Loss: $650</li>
-                            <li>Profit Loss: $650 × 0.62 = $403</li>
-                            <li>% of Total P14 Profit: $403 ÷ $27,190 = 1.48% impact</li>
-                        </ul>
-                        <p><strong>Risk Assessment:</strong> If losing top 5 customers impacts >10% of profit, implement customer retention strategies immediately.</p>
+<p>Translate concentration into money by running loss scenarios at P14's ~62% margin:</p>
+<ul>
+<li>Lose the top customer &mdash; how much P14 profit disappears?</li>
+<li>Lose the top 3, then the top 5 &mdash; how fast does the damage compound?</li>
+</ul>
+<p>Scenarios make the risk concrete for decision-makers in a way an index value never does.</p>
                     </div>
                 </div>
             </div>
@@ -759,26 +726,19 @@
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="accordion-title-wrapper">
                         <div class="accordion-step-number">7</div>
-                        <div class="accordion-title">Develop Strategic Recommendations</div>
+                        <div class="accordion-title">Develop the recommendation</div>
                     </div>
                     <span class="material-icons-outlined accordion-icon">expand_more</span>
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Based on Concentration Analysis, Recommend:</strong></p>
-                        <ul>
-                            <li><strong>If Low Concentration (HHI < 0.15):</strong> Invest in growth and expansion; customer base is diversified</li>
-                            <li><strong>If Moderate Concentration (HHI 0.15-0.25):</strong> Invest with customer retention programs for top 10 customers</li>
-                            <li><strong>If High Concentration (HHI > 0.25):</strong> Diversify customer base before major investment; implement VIP retention programs</li>
-                        </ul>
-                        <p><strong>Actionable Strategies:</strong></p>
-                        <ul>
-                            <li><strong>Customer Retention:</strong> VIP programs, dedicated account managers, loyalty rewards for top customers</li>
-                            <li><strong>Diversification:</strong> Target new customer segments, expand marketing to reduce dependency</li>
-                            <li><strong>Risk Monitoring:</strong> Quarterly HHI tracking, early warning system for customer churn</li>
-                            <li><strong>Contract Strategies:</strong> Long-term contracts with top customers to reduce churn risk</li>
-                        </ul>
-                        <p><strong>Deliverable:</strong> Executive summary with concentration metrics, risk assessment, and strategic recommendations.</p>
+<p>Tie the recommendation to the concentration level you found:</p>
+<ul>
+<li><strong>Low concentration</strong> &mdash; the base is diversified; support growth.</li>
+<li><strong>Moderate concentration</strong> &mdash; invest, but put retention programmes around the top customers.</li>
+<li><strong>High concentration</strong> &mdash; treat the dependency as a strategic risk: protect the key account hard while actively diversifying. In an M&A context, this is the kind of finding that justifies a valuation discount.</li>
+</ul>
+<p>The headline: a high margin built on one customer is not the safe bet it first appears to be.</p>
                     </div>
                 </div>
             </div>
@@ -802,58 +762,53 @@
                 </div>
                 <div class="accordion-content">
                     <div class="accordion-body">
-                        <p><strong>Step 1: Load and Filter P14 Sales Data</strong></p>
-                        <div class="code-block">let
-    Source = Excel.CurrentWorkbook(){[Name="Fact_Sales"]}[Content],
-    FilterP14 = Table.SelectRows(Source, each [ProductID] = "P14")
-in
-    FilterP14</div>
-                        
-                        <p><strong>Step 2: Merge with Customer Dimension</strong></p>
-                        <div class="code-block">let
-    MergeCustomer = Table.NestedJoin(FilterP14, {"CustomerID"}, Dim_Customer, {"CustomerID"}, "Customer", JoinKind.Left),
-    ExpandCustomer = Table.ExpandTableColumn(MergeCustomer, "Customer", 
-        {"CustomerName", "LoyaltyTier", "AcquisitionChannel", "CustomerType"})
-in
-    ExpandCustomer</div>
-                        
-                        <p><strong>Step 3: Aggregate Revenue by Customer</strong></p>
-                        <div class="code-block">let
-    GroupByCustomer = Table.Group(ExpandCustomer, {"CustomerID", "CustomerName", "LoyaltyTier", "AcquisitionChannel"}, {
-        {"TotalRevenue", each List.Sum([UnitPriceLocal] * [Quantity]), type number},
-        {"TransactionCount", each Table.RowCount(_), Int64.Type},
-        {"AvgTransactionValue", each List.Average([UnitPriceLocal] * [Quantity]), type number}
-    })
-in
-    GroupByCustomer</div>
-                        
-                        <p><strong>Step 4: Calculate Concentration Metrics</strong></p>
-                        <div class="code-block">let
-    SortByRevenue = Table.Sort(GroupByCustomer, {{"TotalRevenue", Order.Descending}}),
-    AddRank = Table.AddIndexColumn(SortByRevenue, "CustomerRank", 1, 1),
-    TotalP14Revenue = List.Sum(AddRank[TotalRevenue]),
-    AddRevenueShare = Table.AddColumn(AddRank, "RevenueShare", each [TotalRevenue] / TotalP14Revenue),
-    AddCumulativeShare = Table.AddColumn(AddRevenueShare, "CumulativeShare", 
-        each List.Sum(List.FirstN(AddRevenueShare[RevenueShare], [CustomerRank]))),
-    AddHHIContribution = Table.AddColumn(AddCumulativeShare, "HHI_Contribution", each Number.Power([RevenueShare], 2))
-in
-    AddHHIContribution</div>
-                        
-                        <p><strong>Step 5: Create Risk Assessment</strong></p>
-                        <div class="code-block">let
-    AddConcentrationTier = Table.AddColumn(AddHHIContribution, "ConcentrationTier", 
-        each if [CustomerRank] <= 5 then "Top 5 - Critical"
-        else if [CustomerRank] <= 10 then "Top 10 - High Risk"
-        else if [CumulativeShare] <= 0.8 then "Core Base"
-        else "Long Tail"),
-    
-    AddRiskFlag = Table.AddColumn(AddConcentrationTier, "RiskFlag", 
-        each if [RevenueShare] > 0.05 then "High Dependency (>5%)"
-        else if [RevenueShare] > 0.02 then "Moderate Dependency (2-5%)"
-        else "Low Dependency (<2%)")
-in
-    AddRiskFlag</div>
-                    </div>
+<p style="margin-bottom:18px;">This guide builds the <strong>Customer Concentration</strong> query for product <strong>P14 (Dragon Egg Replica)</strong>. Steps 1&ndash;4 are the same revenue build as the profitability exercise &mdash; revenue must be in USD before you can compare customers fairly. Steps 5&ndash;7 isolate P14 and measure how concentrated its customer base is.</p>
+
+<div class="warning-box" style="margin-bottom:18px;">
+<span class="material-icons-outlined">warning</span>
+<div class="info-box-content"><p><strong>Common mistake:</strong> calculating revenue as <code>UnitPriceLocal &times; Quantity</code> with no FX conversion. P14 is a Game of Thrones product priced in Gold Dragons (rate 2), so skipping the conversion halves every figure. Always convert to USD first.</p></div>
+</div>
+
+<p><strong>Step 1 &mdash; Load Fact_Sales into Power Query</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> Select any cell in Fact_Sales &rarr; <strong>Data</strong> &rarr; <strong>From Table/Range</strong>.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> Fact_Sales holds every transaction line. Customer-level revenue is summed up from here.</p>
+
+<p><strong>Step 2 &mdash; Bring in each realm's currency</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Home</strong> &rarr; <strong>Merge Queries</strong>. Match <code>RealmID</code> to <strong>Dim_Realm</strong>'s <code>RealmID</code>, Left Outer. Expand the new column, tick only <code>CurrencyCode</code>.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> The realm determines which currency a sale was made in &mdash; you need that before you can find the right exchange rate.</p>
+
+<p><strong>Step 3 &mdash; Bring in the FX rate</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Merge Queries</strong> again. Match <code>Dim_Realm.CurrencyCode</code> to <strong>Dim_FX</strong>'s <code>CurrencyCode</code>, Left Outer. Expand, tick only <code>RateToReportingCurrency</code>.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> This rate converts local prices to USD so every customer is measured in the same units.</p>
+
+<p><strong>Step 4 &mdash; Calculate revenue per transaction (USD)</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Add Column</strong> &rarr; <strong>Custom Column</strong>. Name it <code>Revenue USD</code>.</p>
+<div class="code-block">[Quantity] * [UnitPriceLocal] * [Dim_FX.RateToReportingCurrency]</div>
+<p style="margin:0 0 14px;"><em>Why:</em> Units &times; price &times; rate gives USD revenue for that line. This is the figure you'll total per customer.</p>
+
+<p><strong>Step 5 &mdash; Total revenue for each customer&ndash;product pair</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Home</strong> &rarr; <strong>Group By</strong>. Group by <strong>two</strong> columns: <code>CustomerID</code> and <code>ProductID</code> (use the "Advanced" option to add the second). Aggregation: <code>Revenue</code> = <strong>Sum</strong> of <code>Revenue USD</code>.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> Grouping by customer and product gives one revenue figure per customer per product &mdash; the grain you need before isolating P14.</p>
+
+<p><strong>Step 6 &mdash; Keep only P14</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> Click the <code>ProductID</code> column dropdown &rarr; untick everything except <strong>P14</strong> &rarr; OK. Then click the <code>Revenue</code> dropdown &rarr; <strong>Sort Descending</strong>.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> The question is only about P14's customers. Filtering now leaves 27 rows, one per P14 customer, biggest spender first.</p>
+
+<p><strong>Step 7 &mdash; Add each customer's share of P14 revenue</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Add Column</strong> &rarr; <strong>Custom Column</strong>, name it <code>Revenue as % total</code>. Then set the column's data type to <strong>Percentage</strong>.</p>
+<div class="code-block">[Revenue] / List.Sum(#"Sorted Rows"[Revenue])</div>
+<p style="margin:6px 0 4px;"><em>Note:</em> <code>#"Sorted Rows"</code> is the name of the previous step &mdash; if your step is named differently, match it. <code>List.Sum(...[Revenue])</code> totals the whole Revenue column.</p>
+<p style="margin:0 0 14px;"><em>Why:</em> Dividing one customer's revenue by the P14 total gives their concentration share. This column is what the HHI and the top-5 analysis are built on.</p>
+
+<p><strong>Step 8 &mdash; Close &amp; Load, then read the concentration story</strong></p>
+<p style="margin:6px 0 4px;"><em>Click path:</em> <strong>Home</strong> &rarr; <strong>Close &amp; Load</strong>.</p>
+<p style="margin:0 0 6px;"><em>Why:</em> With shares in front of you, the risk is obvious: one customer (C077) is 69.5% of P14. HHI = &Sigma;(share&sup2;) &asymp; 0.49, far above the 0.25 high-risk line.</p>
+
+<div class="info-box" style="margin-top:16px;">
+<span class="material-icons-outlined">check_circle</span>
+<div class="info-box-content"><p><strong>Check your result:</strong> 27 customer rows, total Revenue <strong>$43,800.38</strong>. C077 ranked 1 at <strong>$30,445 (69.5%)</strong>. Top 5 &asymp; <strong>78.4%</strong>, top 10 &asymp; <strong>86.6%</strong>, HHI &asymp; <strong>0.49</strong>.</p></div>
+</div>
+</div>
                 </div>
             </div>
         </div>
@@ -938,7 +893,7 @@ in
                             <td>C086, C082, C064, C083, C074</td>
                             <td>$649-841</td>
                             <td>1.5-1.9%</td>
-                            <td>~88%</td>
+                            <td>~86.6%</td>
                             <td>Top 10 - High Risk</td>
                         </tr>
                         <tr>
@@ -970,7 +925,7 @@ in
                             <li><strong>Average Revenue per Customer:</strong> ~$1,622</li>
                             <li><strong>Top Customer Share:</strong> 69.5% (C077 with $30,445)</li>
                             <li><strong>Top 5 Concentration (CR5):</strong> ~78.5% of total revenue</li>
-                            <li><strong>Top 10 Concentration (CR10):</strong> ~88% of total revenue</li>
+                            <li><strong>Top 10 Concentration (CR10):</strong> ~86.6% of total revenue</li>
                             <li><strong>Estimated HHI:</strong> 0.48+ (EXTREME concentration - well above 0.25 high-risk threshold)</li>
                             <li><strong>Risk Assessment:</strong> CRITICAL - Single customer dependency with 69.5% concentration</li>
                         </ul>
@@ -980,7 +935,7 @@ in
                 <div class="warning-box">
                     <span class="material-icons-outlined">warning</span>
                     <div class="info-box-content">
-                        <p><strong>Critical Finding:</strong> P14 shows <strong>EXTREME customer concentration risk</strong>. One customer (C077) represents 69.5% of P14's revenue ($30,445 out of $43,800). The top 5 customers account for 78.5% of revenue. If C077 leaves, P14 loses $30,445 in revenue and $18,876 in gross profit—a 69.4% profit collapse. This is a <strong>CRITICAL RISK</strong> that requires immediate customer retention and diversification strategies before major investment.</p>
+                        <p><strong>Critical Finding:</strong> P14 shows <strong>EXTREME customer concentration risk</strong>. One customer (C077) represents 69.5% of P14's revenue ($30,445 out of $43,800). The top 5 customers account for 78.5% of revenue. If C077 leaves, P14 loses $30,445 in revenue and ~$18,900 in gross profit—a 69.5% profit collapse. This is a <strong>CRITICAL RISK</strong> that requires immediate customer retention and diversification strategies before major investment.</p>
                     </div>
                 </div>
             </div>
@@ -1009,15 +964,15 @@ in
                             <li><strong>Top Customer Dependency:</strong> Examine what % of P14 revenue comes from the largest customer</li>
                             <li><strong>Top 5 Concentration (CR5):</strong> Calculate what % of total revenue comes from top 5 customers</li>
                             <li><strong>Top 10 Concentration (CR10):</strong> Calculate what % of total revenue comes from top 10 customers</li>
-                            <li><strong>Pareto Analysis:</strong> Determine how many customers drive 80% of revenue</li>
+                            <li><strong>Pareto Analysis:</strong> 6 customers drive ~80% of P14 revenue</li>
                             <li><strong>HHI Score:</strong> Calculate HHI to quantify concentration (benchmark: <0.15 = low, 0.15-0.25 = moderate, >0.25 = high)
                         </ul>
                         
                         <p><strong>Risk Assessment Insights - CATASTROPHIC RISK:</strong></p>
                         <ul>
-                            <li><strong>Profit Impact - Lose C077 (Top Customer):</strong> $30,444.88 revenue × 62% margin = $18,875.82 profit loss (69.4% of total P14 profit!)</li>
-                            <li><strong>Profit Impact - Lose Top 3 Customers:</strong> ~$32,617 revenue × 62% margin = ~$20,222 profit loss (74.3% of total P14 profit)</li>
-                            <li><strong>Profit Impact - Lose Top 5 Customers:</strong> ~$33,874 revenue × 62% margin = ~$20,982 profit loss (77.1% of total P14 profit)</li>
+                            <li><strong>Profit Impact - Lose C077 (Top Customer):</strong> $30,444.88 revenue × 62.1% margin = $18,900 profit loss (69.5% of total P14 profit!)</li>
+                            <li><strong>Profit Impact - Lose Top 3 Customers:</strong> ~$32,618 revenue × 62.1% margin = ~$20,248 profit loss (74.5% of total P14 profit)</li>
+                            <li><strong>Profit Impact - Lose Top 5 Customers:</strong> ~$34,344 revenue × 62% margin = ~$21,320 profit loss (78.4% of total P14 profit)</li>
                             <li><strong>Customer Loyalty:</strong> Examine if top customers are Gold/Platinum tier (sticky) or Bronze tier (at-risk)</li>
                             <li><strong>Acquisition Channel:</strong> Check if top customers came via referral (higher retention) or walk-in (lower retention)</li>
                             <li><strong>Transaction Frequency:</strong> Are top customers repeat buyers or one-time purchasers?</li>
